@@ -5,14 +5,13 @@ import '../../styles/preview.scss';
 function ImageUploader() {
 
     let [url, setUrl] = useState(initialSrc);
-    const urlReg = urlRegex
     const imageEl = useRef(null);
     const canvasRef = useRef(null);
     const inputEl = useRef(null);
 
-    const handelUpload = () => {
+    const handleUpload = () => {
         let value = inputEl.current.value;
-        if (value && value.match(urlReg)) {
+        if (value && value.match(urlRegex)) {
             setUrl(value);
         } else {
             alert('Wrong Image Url');
@@ -40,7 +39,7 @@ function ImageUploader() {
             <div className="image-uploader-container">
                 <div className="uploader-url">
                     <input className="url" ref={inputEl} placeholder='https://unsplash.com/s/photos/image'/>
-                    <button className="btn" onClick={handelUpload}>Upload</button>
+                    <button className="btn" onClick={handleUpload}>Upload</button>
                 </div>
                 <div className="preview">
                     {url ?

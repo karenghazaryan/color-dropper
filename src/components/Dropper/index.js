@@ -1,51 +1,54 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {dropperHeight, dropperWidth} from "../../constants";
-import '../../styles/dropper.scss'
+import '../../styles/dropper.scss';
 
 function Dropper(props) {
     let {onChangeColor} = props;
     const [canvas, setCanvas] = useState(null);
+    const [offsetLeft, setOffsetLeft] = useState(null);
+    const [offsetTop, setOffsetTop] = useState(null);
     const [isHover, setIsHover] = useState(false);
     const [colorHex, setColorHex] = useState(null);
     const zoomEl = useRef(null);
     const pickerEl = useRef(null);
 
     useEffect(() => {
-        window.addEventListener('mousemove', handelMove, false);
-        window.addEventListener('mousedown', handelClick, false);
+        window.addEventListener('mousemove', handleMove, false);
         return function () {
-            window.removeEventListener('mousemove', handelMove);
-            window.removeEventListener('mousedown', handelClick);
+            window.removeEventListener('mousemove', handleMove);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps,
-    }, [colorHex, canvas, isHover]);
+    }, [canvas, offsetLeft, offsetTop]);
 
-    const handelClick = () => {
-        if(isHover) {
+    const handleClick = () => {
+        if (isHover) {
             onChangeColor(colorHex);
         }
     }
 
-    const handelMove = (e) => {
+    const handleMove = (e) => {
         let canvasEl = e.target.closest('#canvas') || null;
+
         if (canvasEl) {
             setCanvas(canvasEl);
+            setOffsetLeft(canvasEl.offsetLeft);
+            setOffsetTop(canvasEl.offsetTop);
         }
-        if (canvas && (canvas || e.target.closest('.picker'))) {
-            const left = canvas.offsetLeft
-            const top = canvas.offsetTop
-            const x = e.pageX - left;
-            const y = e.pageY - top;
-            if (x >= 0 && y >= 0 && x <= canvas.width && y <= canvas.height) {
-                setIsHover(true);
-                pickerEl.current.style.transform = `translate(${e.pageX - dropperWidth/2}px, ${e.pageY - dropperHeight/2}px)`;
-                zoom(canvas, x, y);
-                pick();
-            } else {
-                setIsHover(false)
-            }
 
-        }
+        setTimeout(() => {
+            if (canvas || e.target.closest('.picker')) {
+                const x = e.pageX - offsetLeft;
+                const y = e.pageY - offsetTop;
+                if (x >= 0 && y >= 0 && x <= canvas.width && y <= canvas.height) {
+                    setIsHover(true);
+                    pickerEl.current.style.transform = `translate(${e.pageX - dropperWidth / 2}px, ${e.pageY - dropperHeight / 2}px)`;
+                    zoom(canvas, x, y);
+                    pick();
+                } else {
+                    setIsHover(false)
+                }
+            }
+        })
     }
 
     const zoom = (canvas, x, y) => {
@@ -78,7 +81,7 @@ function Dropper(props) {
         <div className="picker" ref={pickerEl}>
             {isHover ?
                 <>
-                    <canvas id="zoom" ref={zoomEl}/>
+                    <canvas id="zoom" ref={zoomEl} onClick={handleClick}/>
                     {colorHex ?
                         <div className="color-hex">
                             {colorHex}

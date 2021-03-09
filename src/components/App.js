@@ -7,17 +7,13 @@ function App() {
 
     let [color, setColor] = useState('');
 
-    const onChangeColor = useCallback((color) => {
-        setColor(color)
-    }, [])
-
     return (
         <div className="app">
             <div className="app-container" style={{background: color}}>
                 <ImageUploader/>
             </div>
 
-            <Dropper onChangeColor={onChangeColor}/>
+            <Dropper onChangeColor={setColor}/>
         </div>
     );
 }
