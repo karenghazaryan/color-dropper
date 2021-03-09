@@ -23,4 +23,6 @@ Your app is ready to be deployed!
 
 This dropper is adding a zoom functionality to images that are in canvas.
 The dropper is a react component which shows hex code in circle while hovering over canvas.  
-When you click while hovering you see chosen color on background
+When you click while hovering you see chosen color on background.
+
+It is recommended to use images from  https://unsplash.com/s/photos/image

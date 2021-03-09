@@ -31,7 +31,7 @@ function ImageUploader() {
                 image.style.display = 'none';
             };
         }
-    }, [imageEl, canvasRef, url]);
+    }, [url]);
 
 
     return (
