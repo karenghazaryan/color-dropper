@@ -1,0 +1,18 @@
+.picker {
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  position: absolute;
+  overflow: hidden;
+  left: 0;
+  top: 0;
+  cursor: cell;
+  display: flex;
+  justify-content: center;
+  transform: translate(0, 0);
+}
+
+.color-hex {
+  position: absolute;
+  bottom: 20%;
+}

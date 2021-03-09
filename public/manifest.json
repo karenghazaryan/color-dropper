@@ -1,0 +1,6 @@
+{
+  "short_name": "Color Dropper App",
+  "name": "Create Sample Color Dropper ",
+  "start_url": ".",
+  "display": "standalone"
+}
