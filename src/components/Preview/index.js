@@ -5,7 +5,6 @@ import '../../styles/preview.scss';
 function ImageUploader() {
 
     let [url, setUrl] = useState(initialSrc);
-    const imageEl = useRef(null);
     const canvasRef = useRef(null);
     const inputEl = useRef(null);
 
@@ -19,18 +18,17 @@ function ImageUploader() {
     }
 
     useEffect(() => {
-        const image = imageEl.current;
-        if (image) {
-            const canvas = canvasRef.current;
-            const ctx = canvas.getContext('2d');
-            image.onload = function () {
-                image.style.display = 'block';
-                ctx.canvas.width = image.clientWidth;
-                ctx.canvas.height = image.clientHeight;
-                ctx.drawImage(image, 0, 0);
-                image.style.display = 'none';
-            };
-        }
+        const newImage = new Image();
+        newImage.src = url || initialSrc;
+        newImage.crossOrigin = 'Anonymous';
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+
+        newImage.onload = function () {
+            ctx.canvas.width = this.width;
+            ctx.canvas.height = this.height;
+            ctx.drawImage(newImage, 0, 0);
+        };
     }, [url]);
 
 
@@ -44,7 +42,6 @@ function ImageUploader() {
                 <div className="preview">
                     {url ?
                         <>
-                            <img src={url} alt="Native Image" ref={imageEl} crossOrigin="anonymous"/>
                             <canvas id="canvas" ref={canvasRef}/>
                         </>
                         :

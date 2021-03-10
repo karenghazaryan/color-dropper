@@ -1,5 +1,5 @@
 import ImageUploader from "./Preview";
-import React, {useState, useCallback} from "react";
+import React, {useState} from "react";
 import Dropper from "./Dropper";
 import '../styles/app.scss'
 
